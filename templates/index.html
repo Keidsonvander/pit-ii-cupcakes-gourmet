@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cupcake Gourmet</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topo">
+    <div>
+      <span class="marca">Cupcake Gourmet</span>
+      <p>Escolha seus sabores e faça seu pedido online.</p>
+    </div>
+    <button id="abrirCarrinho" class="btn-secundario">Carrinho (<span id="qtdCarrinho">0</span>)</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <span class="tag">PIT II • Engenharia de Software</span>
+        <h1>Cupcakes artesanais, simples de pedir.</h1>
+        <p>Catálogo digital responsivo com carrinho, cadastro do cliente e finalização de pedido.</p>
+        <a class="btn" href="#catalogo">Ver cupcakes</a>
+      </div>
+    </section>
+
+    <section id="catalogo" class="secao">
+      <div class="titulo-secao">
+        <div>
+          <span class="tag">Catálogo</span>
+          <h2>Sabores disponíveis</h2>
+        </div>
+      </div>
+      <div class="grade-produtos">
+        {% for produto in produtos %}
+        <article class="card-produto">
+          <div class="icone-cupcake">🧁</div>
+          <h3>{{ produto.nome }}</h3>
+          <p>{{ produto.descricao }}</p>
+          <div class="linha-produto">
+            <strong>R$ {{ '%.2f'|format(produto.preco)|replace('.', ',') }}</strong>
+            <button class="btn adicionar" data-id="{{ produto.id }}" data-nome="{{ produto.nome }}" data-preco="{{ produto.preco }}">Adicionar</button>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section id="pedido" class="secao painel-pedido">
+      <div>
+        <span class="tag">Finalização</span>
+        <h2>Dados do cliente</h2>
+        <p>Preencha os campos abaixo para concluir o pedido.</p>
+      </div>
+      <form id="formPedido">
+        <label>Nome completo
+          <input id="cliente" type="text" required placeholder="Digite seu nome">
+        </label>
+        <label>Telefone
+          <input id="telefone" type="tel" required placeholder="(11) 99999-9999">
+        </label>
+        <label>Endereço de entrega
+          <textarea id="endereco" required placeholder="Rua, número, bairro e complemento"></textarea>
+        </label>
+        <div id="resumoPedido" class="resumo-vazio">Adicione produtos ao carrinho.</div>
+        <button class="btn" type="submit">Finalizar pedido</button>
+        <p id="mensagem" class="mensagem" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer>Projeto acadêmico • Lucas Seara Santos • RGM 34112324</footer>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
